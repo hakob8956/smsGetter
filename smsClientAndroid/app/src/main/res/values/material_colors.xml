@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Google Material Design Color Palette for Android http://www.google.com/design/spec/style/color.html#color-ui-color-palette
+    Link to this colors.xml resource file - http://bit.ly/mdcolorsxml
+
+    Harshad Kale
+    https://github.com/kalehv
+-->
+<resources>
+
+    <color name="pink_A200">#FF4081</color>
+
+    <color name="indigo_100">#C5CAE9</color>
+    <color name="indigo_500">#3F51B5</color>
+    <color name="indigo_700">#303F9F</color>
+
+    <color name="grey_50">#FAFAFA</color>
+
+    <color name="black">#000000</color>
+
+    <!-- Colors for the app -->
+
+    <!--Light Background Dark Text-->
+
+    <!--Dark Background Light Text-->
+</resources>
