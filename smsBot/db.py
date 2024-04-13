@@ -9,7 +9,14 @@ def init_db():
     conn = sqlite3.connect(DATABASE_NAME)
     c = conn.cursor()
     c.execute(
-        '''CREATE TABLE IF NOT EXISTS secret_keys (uuid TEXT PRIMARY KEY, secret_key TEXT)''')
+        '''
+        CREATE TABLE IF NOT EXISTS secret_keys (
+            id INTEGER PRIMARY KEY,
+            uuid TEXT,
+            secret_key TEXT
+        )
+        '''
+    )
     conn.commit()
     conn.close()
 
