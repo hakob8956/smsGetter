@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context=".activities.MainActivity">
+
+    <EditText
+        android:id="@+id/serverUrlInput"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textSize="18sp"
+        android:hint="@string/server_placeholder"
+        android:autofillHints="@android:string/no"
+        android:inputType="textUri"
+        android:visibility="visible"/>
+
+
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="1.8"
+        android:padding="8dp"
+        android:background="@drawable/ic_text_view_border">
+
+        <TextView
+            android:id="@+id/messagesField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif"
+            android:hint="@string/messages_label" />
+    </ScrollView>
+
+    <Button
+            android:text="ClearLog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/btnClear"
+    android:textSize="14sp"
+    android:fontFamily="monospace"
+            android:layout_gravity="right"
+    />
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:background="@drawable/ic_text_view_border">
+
+        <TextView
+            android:id="@+id/logsField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:hint="@string/logs_label" />
+    </ScrollView>
+    <Button
+            android:text="Setting"
+            android:textSize="14sp"
+            android:fontFamily="monospace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSetting"/>
+    <Button
+            android:text="Notification"
+            android:textSize="14sp"
+            android:fontFamily="monospace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnTest"/>
+</LinearLayout>

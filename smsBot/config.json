@@ -1,0 +1,5 @@
+{
+  "server_url": "SERVER_URL",
+  "secure_auth_token": "Secure_Auth_Token",
+  "authKey": "AuthKey"
+}

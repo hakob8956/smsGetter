@@ -1,0 +1,10 @@
+<resources>
+    <style name="AppTheme">
+        <item name="android:colorPrimary">@color/indigo_500</item>
+        <item name="android:colorPrimaryDark">@color/indigo_700</item>
+        <item name="android:colorAccent">@color/pink_A200</item>
+
+        <item name="android:color">@color/black</item>
+        <item name="android:colorBackground">@color/grey_50</item>
+    </style>
+</resources>

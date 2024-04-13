@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".activities.MainSetting">
+
+    <TextView
+            android:text="Message Types:"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="36dp" android:id="@+id/lblMessageType"/>
+    <CheckBox
+            android:text="Notification"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="42dp" android:id="@+id/chkNotificationType"/>
+
+    <CheckBox
+            android:text="Message"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="42dp" android:id="@+id/chkSMSType"/>
+    <EditText
+            android:id="@+id/txtFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:hint="Filter(Contains):"
+            android:inputType="text"
+            android:maxLength="50"
+            />
+
+    <TextView
+            android:text="Secret Key:"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblSecretKey"/>
+    <EditText
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/txtServerKey"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="58dp">
+        <Button
+                android:text="Copy"
+                android:layout_width="wrap_content"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                android:layout_height="wrap_content" android:id="@+id/btnCopy" android:layout_weight="1"/>
+        <Button
+                android:text="Generate"
+                android:layout_width="wrap_content"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                android:layout_height="wrap_content" android:id="@+id/btnGenerate" android:layout_weight="1"/>
+    </LinearLayout>
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="22dp"/>
+    <Button
+            android:text="Back"
+            android:textSize="16sp"
+            android:fontFamily="monospace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnMainScreen"
+            android:textAlignment="center"
+    />
+</LinearLayout>
