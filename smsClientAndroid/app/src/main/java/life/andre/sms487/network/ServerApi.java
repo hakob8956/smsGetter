@@ -94,10 +94,22 @@ public class ServerApi {
     private void handleMessageBatches(@NonNull List<MessageContainer> messages) {
         boolean isNeedSMS = AppSettings.getInstance().getNeedSMSType();
         boolean isNeedNotification = AppSettings.getInstance().getNeedNotificationType();
-        String filterValue = AppSettings.getInstance().getFilter(); // Get the filter value from settings
+        String filterValue = AppSettings.getInstance().getFilter();
+        String[] filterValues = filterValue.split(",");
+
         List<MessageContainer> toSend = new ArrayList<>();
         for (MessageContainer msg : messages) {
-            if (filterValue.isEmpty() || (msg.getBody() != null && msg.getBody().toLowerCase().contains(filterValue.toLowerCase()))) {
+            String messageBody = msg.getBody() != null ? msg.getBody().toLowerCase() : "";
+
+            boolean containsFilter = filterValue.isEmpty();
+            for (String filter : filterValues) {
+                if (messageBody.contains(filter.trim().toLowerCase())) {
+                    containsFilter = true;
+                    break;
+                }
+            }
+
+            if (containsFilter) {
                 if ((msg.getMessageType().equals(MESSAGE_TYPE_SMS) && isNeedSMS) ||
                         (msg.getMessageType().equals(MESSAGE_TYPE_NOTIFICATION) && isNeedNotification)) {
                     toSend.add(msg);

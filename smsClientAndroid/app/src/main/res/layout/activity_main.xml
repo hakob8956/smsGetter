@@ -8,14 +8,14 @@
     tools:context=".activities.MainActivity">
 
     <EditText
-        android:id="@+id/serverUrlInput"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:textSize="18sp"
-        android:hint="@string/server_placeholder"
-        android:autofillHints="@android:string/no"
-        android:inputType="textUri"
-        android:visibility="visible"/>
+            android:id="@+id/serverUrlInput"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:textSize="18sp"
+            android:hint="@string/server_placeholder"
+            android:autofillHints="@android:string/no"
+            android:inputType="textUri"
+            android:visibility="invisible"/>
 
 
     <ScrollView
