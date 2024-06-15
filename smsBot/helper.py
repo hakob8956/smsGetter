@@ -60,9 +60,13 @@ def get_mobile_status(secret_keys):
         )
         response.raise_for_status()
         mobile_status = response.json()
-        # Remove last_updated from each key's status
+        processed_status = {}
         for key, value in mobile_status.items():
-            mobile_status[key] = value['status']
-        return mobile_status
+            if 'status' in value:
+                processed_status[key] = value['status']
+            else:
+                processed_status[key] = value['message']
+
+        return processed_status
     except Exception as e:
         return f'Error: {str(e)}'
