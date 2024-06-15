@@ -73,3 +73,14 @@ def delete_specific_secret_key(uuid, secret_key):
         "DELETE FROM secret_keys WHERE uuid = ? AND secret_key = ?", (uuid, secret_key))
     conn.commit()
     conn.close()
+
+
+def get_device_name_by_secret_key(secret_key):
+    """Retrieve the device name for a given secret key."""
+    conn = sqlite3.connect(DATABASE_NAME)
+    c = conn.cursor()
+    c.execute(
+        "SELECT device_name FROM secret_keys WHERE secret_key = ?", (secret_key,))
+    result = c.fetchone()
+    conn.close()
+    return result[0] if result else None

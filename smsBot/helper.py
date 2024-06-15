@@ -1,5 +1,6 @@
 import requests
 import json
+import db
 
 with open('config.json') as config_file:
     config = json.load(config_file)
@@ -23,7 +24,9 @@ def get_sms():
 
 
 def get_message_from_response(response):
-    return f'*Message type:* {response["message_type"]}\n*Text:* {response["text"]}\n'
+    secret_key = response["secret_key"]
+    device_name = db.get_device_name_by_secret_key(secret_key)
+    return f'*From:* **{device_name}**\n*Message type:* {response["message_type"]}\n*Text:* {response["text"]}\n'
 
 
 def get_server_status():
