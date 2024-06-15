@@ -9,20 +9,21 @@ import java.util.UUID;
 
 import life.andre.sms487.views.Toaster;
 
-
 @SuppressWarnings("SameParameterValue")
 public class AppSettings {
-  
+
     public static final String SERVER_URL = "Server URL";
     public static final String SERVER_KEY = "Server key";
     public static final String NEED_TYPE_NOTIFICATION = "Notification message type";
     public static final String NEED_TYPE_SMS = "SMS message type";
-    
-    public static final String SERVER_URL_VALUE = "SERVER_URL_VALUE";
-    public static final String SERVER_AUTH_VALUE = "SERVER_AUTH_VALUE";
     public static final String FILTER_VALUE = "";
 
+    // Default values
+    public static final String SERVER_URL_VALUE = "SERVER_URL_VALUE";
+    public static final String SERVER_AUTH_VALUE = "SERVER_AUTH_VALUE";
     public static final String SERVER_KEY_VALUE = UUID.randomUUID().toString();
+    public static final String HEALTH_URL = "Health URL";
+    public static final String HEALTH_URL_DEFAULT = "HEALTH_URL_DEFAULT";
 
     private static final int TYPE_STRING = 0;
     private static final int TYPE_BOOL = 1;
@@ -48,7 +49,7 @@ public class AppSettings {
 
     @NonNull
     public String getServerUrl() {
-        return SERVER_URL_VALUE;
+        return getString(SERVER_URL, SERVER_URL_VALUE);
     }
 
     @NonNull
@@ -58,7 +59,12 @@ public class AppSettings {
 
     @NonNull
     public String getServerKey() {
-        return getString(SERVER_KEY);
+        return getString(SERVER_KEY, SERVER_KEY_VALUE);
+    }
+
+    @NonNull
+    public String getHealthUrl() {
+        return getString(HEALTH_URL, HEALTH_URL_DEFAULT);
     }
 
     public boolean getNeedNotificationType(){
@@ -76,10 +82,15 @@ public class AppSettings {
         saveValue(SERVER_URL, serverUrl);
     }
 
-    public void saveSecretKey(boolean deleteExistKey) {
-         if(getServerKey().equals("") || deleteExistKey)
-             saveValue(SERVER_KEY, UUID.randomUUID().toString());
+    public void saveHealthUrl(@NonNull String healthUrl) {
+        saveValue(HEALTH_URL, healthUrl);
     }
+
+    public void saveSecretKey(boolean deleteExistKey) {
+        if(getServerKey().equals("") || deleteExistKey)
+            saveValue(SERVER_KEY, UUID.randomUUID().toString());
+    }
+
     public void saveFilter(@NonNull String filterValue) {
         saveValue(FILTER_VALUE, filterValue );
     }
@@ -98,10 +109,15 @@ public class AppSettings {
         return val == null ? "" : val;
     }
 
+    @NonNull
+    private String getString(@NonNull String name, @NonNull String defaultValue) {
+        String val = getSettingsItem(name).strVal;
+        return val == null ? defaultValue : val;
+    }
+
     private boolean getBool(@NonNull String name) {
         return getSettingsItem(name).boolVal;
     }
-
 
     private void saveValue(@NonNull String name, @NonNull String val) {
         String msg = saveSettingsItemToStorage(name, TYPE_STRING, val, false);

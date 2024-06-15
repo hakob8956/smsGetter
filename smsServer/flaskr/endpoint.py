@@ -5,9 +5,8 @@ from flaskr.helper import *
 
 
 @app.route('/health', methods=['GET'])
-def hello():
-    # TODO: add db,service,bot checking
-    return 'Working'
+def health():
+    return Response("healthy", status=200)
 
 
 @app.route('/add-sms', methods=['POST'])

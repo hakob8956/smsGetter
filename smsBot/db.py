@@ -1,4 +1,3 @@
-# db.py
 import sqlite3
 
 DATABASE_NAME = "bot_data.db"
@@ -13,7 +12,8 @@ def init_db():
         CREATE TABLE IF NOT EXISTS secret_keys (
             id INTEGER PRIMARY KEY,
             uuid TEXT,
-            secret_key TEXT
+            secret_key TEXT,
+            device_name TEXT
         )
         '''
     )
@@ -21,13 +21,13 @@ def init_db():
     conn.close()
 
 
-def set_secret_key_for_uuid(uuid, secret_key):
-    """Store the secret key for a given uuid if not already present."""
+def set_secret_key_for_uuid(uuid, secret_key, device_name):
+    """Store the secret key and device name for a given uuid if not already present."""
     conn = sqlite3.connect(DATABASE_NAME)
     c = conn.cursor()
     try:
         c.execute(
-            "INSERT OR IGNORE INTO secret_keys (uuid, secret_key) VALUES (?, ?)", (uuid, secret_key))
+            "INSERT OR IGNORE INTO secret_keys (uuid, secret_key, device_name) VALUES (?, ?, ?)", (uuid, secret_key, device_name))
         conn.commit()
     except sqlite3.IntegrityError:
         print("Record already exists. No new record added.")
@@ -55,13 +55,14 @@ def delete_all_secret_keys(uuid):
 
 
 def get_secret_keys_by_uuid(uuid):
-    """Retrieve all secret keys for a given uuid."""
+    """Retrieve all secret keys and device names for a given uuid."""
     conn = sqlite3.connect(DATABASE_NAME)
     c = conn.cursor()
-    c.execute("SELECT secret_key FROM secret_keys WHERE uuid = ?", (uuid,))
+    c.execute(
+        "SELECT secret_key, device_name FROM secret_keys WHERE uuid = ?", (uuid,))
     results = c.fetchall()
     conn.close()
-    return [result[0] for result in results] if results else []
+    return results if results else []
 
 
 def delete_specific_secret_key(uuid, secret_key):

@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 
 import androidx.core.app.NotificationCompat;
@@ -32,6 +31,7 @@ import life.andre.sms487.messages.MessageStorage;
 import life.andre.sms487.settings.AppSettings;
 import life.andre.sms487.system.PermissionsChecker;
 import life.andre.sms487.utils.BgTask;
+import life.andre.sms487.network.NetworkUtils;
 
 public class MainActivity extends Activity {
     private final LogUpdater logUpdater = new LogUpdater(this::showLogsFromLogger);
@@ -47,6 +47,15 @@ public class MainActivity extends Activity {
 
     private Button btnClear;
 
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            NetworkUtils.callHealthEndpoint();  // Call the health endpoint
+            handler.postDelayed(this, 5 * 60 * 1000);  // Schedule the task to run again after 5 minutes
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +64,9 @@ public class MainActivity extends Activity {
 
         findViewComponents();
         bindEvents();
+
+        // Start the repeated task
+        handler.post(runnable);
     }
 
     @Override
@@ -71,6 +83,12 @@ public class MainActivity extends Activity {
         logUpdater.disable();
         eventBus.unregister(this);
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(runnable);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

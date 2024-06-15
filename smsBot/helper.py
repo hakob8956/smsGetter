@@ -25,3 +25,41 @@ def get_sms():
 def get_message_from_response(response):
     return f'*Message type:* {response["message_type"]}\n*Text:* {response["text"]}\n'
 
+
+def get_server_status():
+    try:
+        url = config['monitor_url']
+        response = requests.get(f"{url}/server")
+        response.raise_for_status()
+        return response.json().get('status', 'Unknown')
+    except Exception as e:
+        return f'Error: {str(e)}'
+
+
+def get_db_status():
+    try:
+        url = config['monitor_url']
+        response = requests.get(f"{url}/mongodb")
+        response.raise_for_status()
+        return response.json().get('status', 'Unknown')
+    except Exception as e:
+        return f'Error: {str(e)}'
+
+
+def get_mobile_status(secret_keys):
+    try:
+        url = config['monitor_url']
+        auth_key = config['authKey']
+        response = requests.post(
+            f"{url}/mobile/status",
+            cookies={'__Secure-Auth-Token': auth_key},
+            json={"secret_keys": secret_keys}
+        )
+        response.raise_for_status()
+        mobile_status = response.json()
+        # Remove last_updated from each key's status
+        for key, value in mobile_status.items():
+            mobile_status[key] = value['status']
+        return mobile_status
+    except Exception as e:
+        return f'Error: {str(e)}'

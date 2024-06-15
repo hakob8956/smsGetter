@@ -1,5 +1,6 @@
 {
-  "server_url": "SERVER_URL",
-  "secure_auth_token": "Secure_Auth_Token",
-  "authKey": "AuthKey"
+  "server_url": "server_url",
+  "telegram_key": "telegram_key",
+  "authKey": "authKey",
+  "monitor_url": "monitor_url"
 }

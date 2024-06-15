@@ -1,0 +1,8 @@
+{
+  "SERVICES": {
+    "mongodb": "mongodb",
+    "server": "server"
+  },
+  "TELEGRAM_BOT_TOKEN": "TELEGRAM_BOT_TOKEN",
+  "AUTH_KEY": "AUTH_KEY"
+}
