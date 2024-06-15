@@ -14,14 +14,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import life.andre.sms487.R;
 import life.andre.sms487.events.MessagesStateChanged;
@@ -32,6 +37,7 @@ import life.andre.sms487.settings.AppSettings;
 import life.andre.sms487.system.PermissionsChecker;
 import life.andre.sms487.utils.BgTask;
 import life.andre.sms487.network.NetworkUtils;
+import life.andre.sms487.network.HealthCheckWorker;
 
 public class MainActivity extends Activity {
     private final LogUpdater logUpdater = new LogUpdater(this::showLogsFromLogger);
@@ -47,15 +53,6 @@ public class MainActivity extends Activity {
 
     private Button btnClear;
 
-    private Handler handler = new Handler();
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            NetworkUtils.callHealthEndpoint();  // Call the health endpoint
-            handler.postDelayed(this, 5 * 60 * 1000);  // Schedule the task to run again after 5 minutes
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +62,8 @@ public class MainActivity extends Activity {
         findViewComponents();
         bindEvents();
 
-        // Start the repeated task
-        handler.post(runnable);
+        // Schedule the repeated task with WorkManager
+        scheduleHealthCheckWorker();
     }
 
     @Override
@@ -88,7 +85,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(runnable);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -121,8 +117,6 @@ public class MainActivity extends Activity {
             CharSequence name = "channelTest";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("channelTest", name, importance);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
 
@@ -137,7 +131,6 @@ public class MainActivity extends Activity {
                     PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(contentIntent);
 
-            // Add as notification
             NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             manager.notify(0, builder.build());
         });
@@ -250,5 +243,17 @@ public class MainActivity extends Activity {
             this.serverUrl = serverUrl;
             this.serverKey = serverKey;
         }
+    }
+
+    private void scheduleHealthCheckWorker() {
+        PeriodicWorkRequest healthCheckRequest = new PeriodicWorkRequest.Builder(
+                HealthCheckWorker.class, 15, TimeUnit.MINUTES)
+                .build();
+
+        WorkManager.getInstance().enqueueUniquePeriodicWork(
+                "HealthCheckWork",
+                ExistingPeriodicWorkPolicy.KEEP,
+                healthCheckRequest
+        );
     }
 }

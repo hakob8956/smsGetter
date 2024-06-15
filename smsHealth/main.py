@@ -115,13 +115,13 @@ def get_mobile_health():
     result = {}
 
     current_time = datetime.now()
-    six_minutes_ago = current_time - timedelta(minutes=6)
+    minutes_ago = current_time - timedelta(minutes=16)
 
     for key in secret_keys:
         if key in mobile_service_status:
             last_updated_timestamp = mobile_service_status[key]['last_updated']
             last_updated = datetime.fromtimestamp(last_updated_timestamp)
-            if last_updated < six_minutes_ago:
+            if last_updated < minutes_ago:
                 result[key] = {
                     "status": "offline",
                     "last_updated": last_updated.strftime("%Y-%m-%d %H:%M:%S")

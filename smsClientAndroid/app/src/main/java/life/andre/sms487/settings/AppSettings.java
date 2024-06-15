@@ -14,6 +14,7 @@ public class AppSettings {
 
     public static final String SERVER_URL = "Server URL";
     public static final String SERVER_KEY = "Server key";
+    public static final String HEALTH_URL = "Health URL";
     public static final String NEED_TYPE_NOTIFICATION = "Notification message type";
     public static final String NEED_TYPE_SMS = "SMS message type";
     public static final String FILTER_VALUE = "";
@@ -23,7 +24,8 @@ public class AppSettings {
     public static final String SERVER_AUTH_VALUE = "SERVER_AUTH_VALUE";
     public static final String SERVER_KEY_VALUE = UUID.randomUUID().toString();
     public static final String HEALTH_URL = "Health URL";
-    public static final String HEALTH_URL_DEFAULT = "HEALTH_URL_DEFAULT";
+    public static final String HEALTH_URL_VALUE = "https://monitor.hakob.org/mobile";
+    public static final String HEALTH_URL_VALUE = "HEALTH_URL/mobile";
 
     private static final int TYPE_STRING = 0;
     private static final int TYPE_BOOL = 1;
@@ -64,7 +66,7 @@ public class AppSettings {
 
     @NonNull
     public String getHealthUrl() {
-        return getString(HEALTH_URL, HEALTH_URL_DEFAULT);
+        return getString(HEALTH_URL, HEALTH_URL_VALUE);
     }
 
     public boolean getNeedNotificationType(){
